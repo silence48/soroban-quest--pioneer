@@ -15,7 +15,6 @@ RUN git clone https://github.com/silence48/soroban-quest--pioneer.git ~/.local/_
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
     mv bash-hook ~/.local && \
     npm run package && \
-    mv -s bash-hook ~/.local && \
     cd ~/.local && \
     rm -rf ~/.local/_tmp
 

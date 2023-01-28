@@ -11,9 +11,9 @@ RUN curl -LO https://github.com/denoland/deno/releases/download/v1.30.0/deno-x86
 RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
 
 RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/soroban-quest && \
-    ln -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
+    cp -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
-    ln -s bash-hook ~/.local && \
+    cp -s bash-hook ~/.local && \
     npm run package
 
 ENV RUSTC_WRAPPER=sccache

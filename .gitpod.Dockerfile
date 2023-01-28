@@ -13,10 +13,11 @@ RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
 RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/soroban-quest && \
     cp -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
+    npm run package && \
     cp -s bash-hook ~/.local && \
     cd ~/.local && \
     rm -rf ~/.local/_tmp
-    npm run package
+
 
 ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_CACHE_SIZE=5G

@@ -14,6 +14,8 @@ RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/sorob
     cp -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
     cp -s bash-hook ~/.local && \
+    cd ~/.local && \
+    rm -rf ~/.local/_tmp
     npm run package
 
 ENV RUSTC_WRAPPER=sccache

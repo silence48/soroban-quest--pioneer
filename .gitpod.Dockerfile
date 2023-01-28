@@ -10,14 +10,14 @@ RUN chmod +x ~/.local/bin/sccache
 RUN curl -LO https://github.com/denoland/deno/releases/download/v1.30.0/deno-x86_64-unknown-linux-gnu.zip
 RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
 
-RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/soroban-quest && \
-    cp ~/.local/_tmp/soroban-quest/_client ~/.local && \
+RUN git clone https://github.com/silence48/soroban-quest--pioneer.git ~/.local/_tmp/soroban-quest && \
+    mv ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
+    mv bash-hook ~/.local && \
     npm run package && \
-    cp bash-hook ~/.local && \
+    mv -s bash-hook ~/.local && \
     cd ~/.local && \
     rm -rf ~/.local/_tmp
-
 
 ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_CACHE_SIZE=5G
@@ -32,3 +32,4 @@ RUN rustup component add --toolchain nightly rust-src
 RUN rustup default stable
 
 RUN sudo apt-get update && sudo apt-get install -y binaryen
+

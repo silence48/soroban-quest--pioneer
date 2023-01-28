@@ -1,20 +1,20 @@
-FROM gitpod/workspace-full:2022-12-30-17-11-09
+FROM gitpod/workspace-full:2023-01-16-03-31-28
 LABEL version="1.1.16"
 
 RUN mkdir -p ~/.local/bin
 RUN curl -L -o ~/.local/bin/soroban https://github.com/stellar/soroban-tools/releases/download/v0.4.0/soroban-cli-0.4.0-aarch64-unknown-linux-gnu
 RUN chmod +x ~/.local/bin/soroban
-RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.1/sccache-v0.3.1-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-v0.3.1-x86_64-unknown-linux-musl/sccache
+RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.3/sccache-v0.3.3-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-v0.3.3-x86_64-unknown-linux-musl/sccache
 RUN chmod +x ~/.local/bin/sccache
 
 RUN curl -LO https://github.com/denoland/deno/releases/download/v1.30.0/deno-x86_64-unknown-linux-gnu.zip
 RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
 
 RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/soroban-quest && \
-    cp -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
+    cp ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
     npm run package && \
-    cp -s bash-hook ~/.local && \
+    cp bash-hook ~/.local && \
     cd ~/.local && \
     rm -rf ~/.local/_tmp
 

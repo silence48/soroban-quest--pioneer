@@ -1,29 +1,25 @@
-# Our customized docker image uses Gitpod's "workspace-full" image as a base.
 FROM gitpod/workspace-full:2022-12-30-17-11-09
+LABEL version="1.1.15"
 
-# These "RUN" shell commands are run on top of the "workspace-full" image, and
-# then committed as a new image which will be used for the next steps.
-# In this chunk of "RUN" instructions, we are downloading:
-# - The Soroban CLI
-# - sccache: a compiler cache that avoids running compiling tasks when possible
-# - deno: a JavaScript runtime built in Rust (we use this for the SQ cli)
 RUN mkdir -p ~/.local/bin
-RUN curl -L -o ~/.local/bin/soroban https://github.com/stellar/soroban-tools/releases/download/v0.3.3/soroban-cli-0.3.3-x86_64-unknown-linux-gnu
+RUN curl -L -o ~/.local/bin/soroban https://github.com/stellar/soroban-tools/releases/download/v0.4.0/soroban-cli-0.4.0-aarch64-unknown-linux-gnu
 RUN chmod +x ~/.local/bin/soroban
-RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.1/sccache-v0.3.1-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-v0.3.1-x86_64-unknown-linux-musl/sccache
+RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.3/sccache-dist-v0.3.3-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-v0.3.1-x86_64-unknown-linux-musl/sccache
 RUN chmod +x ~/.local/bin/sccache
 
-RUN curl -LO https://github.com/denoland/deno/releases/download/v1.29.1/deno-x86_64-unknown-linux-gnu.zip
+RUN curl -LO https://github.com/denoland/deno/releases/download/v1.30.0/deno-x86_64-unknown-linux-gnu.zip
 RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
 
-# These "ENV" instructions set environment variables that will be in the
-# environment for all subsequent instructions in the build stage.
+RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/soroban-quest && \
+    ln -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
+    cd ~/.local/_tmp/soroban-quest/_squirtle && \
+    ln -s bash-hook ~/.local && \
+    npm run package && \
+
 ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_CACHE_SIZE=5G
 ENV SCCACHE_DIR=/workspace/.sccache
 
-# In this chunk of "RUN" instructions, we are getting our rust environment
-# ready and prepared to write some Soroban smart contracts.
 RUN rustup install stable
 RUN rustup target add --toolchain stable wasm32-unknown-unknown
 RUN rustup component add --toolchain stable rust-src
@@ -32,6 +28,4 @@ RUN rustup target add --toolchain nightly wasm32-unknown-unknown
 RUN rustup component add --toolchain nightly rust-src
 RUN rustup default stable
 
-# In this final "RUN" instruction, we are installing a compiler and toolchain
-# library for WebAssembly.
 RUN sudo apt-get update && sudo apt-get install -y binaryen

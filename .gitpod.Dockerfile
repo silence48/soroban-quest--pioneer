@@ -1,11 +1,12 @@
-FROM gitpod/workspace-full:latest
-LABEL version="1.1.16"
+FROM gitpod/workspace-full:2022-12-30-17-11-09
+LABEL version="1.1.15"
 
 RUN mkdir -p ~/.local/bin
 RUN curl -L -o ~/.local/bin/soroban https://github.com/stellar/soroban-tools/releases/download/v0.4.0/soroban-cli-0.4.0-aarch64-unknown-linux-gnu
 RUN chmod +x ~/.local/bin/soroban
-RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.3/sccache-dist-v0.3.3-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-v0.3.1-x86_64-unknown-linux-musl/sccache
+RUN curl -L https://github.com/mozilla/sccache/releases/download/v0.3.3/sccache-dist-v0.3.3-x86_64-unknown-linux-musl.tar.gz | tar xz --strip-components 1 -C ~/.local/bin sccache-dist-v0.3.3-x86_64-unknown-linux-musl/sccache
 RUN chmod +x ~/.local/bin/sccache
+
 
 RUN curl -LO https://github.com/denoland/deno/releases/download/v1.30.0/deno-x86_64-unknown-linux-gnu.zip
 RUN unzip deno-x86_64-unknown-linux-gnu.zip -d ~/.local/bin
@@ -14,7 +15,7 @@ RUN git clone https://github.com/silence48/soroban-quest--pioneer ~/.local/sorob
     ln -s ~/.local/_tmp/soroban-quest/_client ~/.local && \
     cd ~/.local/_tmp/soroban-quest/_squirtle && \
     ln -s bash-hook ~/.local && \
-    npm run package && \
+    npm run package
 
 ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_CACHE_SIZE=5G

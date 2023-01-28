@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:2022-12-30-17-11-09
+docker pull gitpod/workspace-full:2023-01-16-03-31-28
 LABEL version="1.1.16"
 
 RUN mkdir -p ~/.local/bin
